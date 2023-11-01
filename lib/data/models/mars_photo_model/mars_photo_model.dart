@@ -17,7 +17,7 @@ class MarsPhotoModel {
   String imgSrc;
   @HiveField(4)
   @JsonKey(name: "earth_date", fromJson: _dateFromString)
-  String earthDate;
+  DateTime earthDate;
 
   MarsPhotoModel({
     required this.id,

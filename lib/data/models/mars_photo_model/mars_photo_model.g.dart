@@ -21,7 +21,7 @@ class MarsPhotoModelAdapter extends TypeAdapter<MarsPhotoModel> {
       sol: fields[1] as int,
       camera: fields[2] as Camera,
       imgSrc: fields[3] as String,
-      earthDate: fields[4] as String,
+      earthDate: fields[4] as DateTime,
     );
   }
 
@@ -94,3 +94,23 @@ class CameraAdapter extends TypeAdapter<Camera> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+MarsPhotoModel _$MarsPhotoModelFromJson(Map<String, dynamic> json) =>
+    MarsPhotoModel(
+      id: json['id'] as int,
+      sol: json['sol'] as int,
+      camera: Camera.fromLson(json['camera'] as Map<String, dynamic>),
+      imgSrc: json['img_src'] as String,
+      earthDate: MarsPhotoModel._dateFromString(json['earth_date'] as String),
+    );
+
+Camera _$CameraFromJson(Map<String, dynamic> json) => Camera(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      roverId: json['rover_id'] as int,
+      fullName: json['full_name'] as String,
+    );
