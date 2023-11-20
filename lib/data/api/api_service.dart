@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 
-class ApiService {
-  late Dio dio;
+late Dio dio;
 
+class ApiService {
   static const baseUrl = 'https://api.nasa.gov/mars-photos/api/v1/rovers';
   static const apiKey = 'PoFhQ6XaJnSADCnigbyVwiYdAeFhaeuYYMM4rlLn';
 
@@ -68,4 +68,20 @@ class ApiService {
       return [];
     }
   }
+
+  Future<Map<String, dynamic>> fetchRoverDetails() async {
+  try {
+    final Response response = await dio.request("/curiosity");
+    log(response.data['rover'].toString());
+    return response.data['rover'];
+  } catch (e) {
+    if (e is DioException) {
+      log(e.message.toString());
+    } else {
+      log('normal error $e');
+    }
+    return {};
+  }
+}
+
 }

@@ -18,16 +18,17 @@ class HomeView extends StatelessWidget {
         ),
       ),
       drawer: const DrawerWidget(),
-      body: Center(
-          child: Container(
-        width: 50.w,
-        padding: EdgeInsets.all(15.sp),
-        color: Theme.of(context).colorScheme.error,
-        child: Text(S.of(context).appTitle),
-      )),
+      body: const Column(
+        children: [
+          ListTile(
+            title: Text('Date'),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          MarsPhotosRepo().fetchDatePhotos(earthDate: DateTime(2021, 11, 20));
+          // MarsPhotosRepo().fetchDatePhotos(earthDate: DateTime(2021, 11, 20));
+          MarsPhotosRepo().fetchRoverDetails();
         },
         child: const Icon(Icons.webhook),
       ),
