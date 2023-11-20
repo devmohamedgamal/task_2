@@ -1,10 +1,13 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'mars_photo_model.g.dart';
 
 @HiveType(typeId: 0)
 @JsonSerializable(createToJson: false)
-class MarsPhotoModel {
+class MarsPhotoModel extends Equatable {
   @HiveField(0)
   int id;
   @HiveField(1)
@@ -27,8 +30,11 @@ class MarsPhotoModel {
     required this.earthDate,
   });
   static DateTime _dateFromString(String date) => DateTime.parse(date);
-  factory MarsPhotoModel.fromLson(Map<String, dynamic> json) => _$MarsPhotoModelFromJson(json);
+  factory MarsPhotoModel.fromLson(Map<String, dynamic> json) =>
+      _$MarsPhotoModelFromJson(json);
 
+  @override
+  List<Object?> get props => [id, sol, camera, imgSrc, earthDate];
 }
 
 @HiveType(typeId: 1)

@@ -41,7 +41,8 @@ class ApiService {
 
   Future<List<dynamic>> fetchLatestPhotos() async {
     try {
-      final Response response = await dio.request("/latest_photos");
+      final Response response = await dio.request("/curiosity/latest_photos");
+      log(response.data['latest_photos'].toString());
       return response.data['latest_photos'];
     } catch (e) {
       if (e is DioException) {
@@ -53,10 +54,10 @@ class ApiService {
     }
   }
 
-
-   Future<List<dynamic>> fetchDatePhotos({required String earthDate}) async {
+  Future<List<dynamic>> fetchDatePhotos({required String earthDate}) async {
     try {
-      final Response response = await dio.request("/photos",queryParameters: {"earth_date" : earthDate});
+      final Response response = await dio.request("/curiosity/photos",
+          queryParameters: {"earth_date": earthDate});
       return response.data['photos'];
     } catch (e) {
       if (e is DioException) {

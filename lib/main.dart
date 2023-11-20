@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
+import 'package:task_2/data/db/init_db.dart';
 import 'package:task_2/utils/app_constants.dart';
 import 'package:task_2/utils/app_router.dart';
 import 'generated/l10n.dart';
@@ -10,8 +11,7 @@ import 'utils/typography.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox(AppConstants.ksettings);
+  await initDb();
   runApp(const MyApp());
 }
 
@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: Hive.box(AppConstants.ksettings).listenable(),
+      valueListenable: Hive.box(AppConstants.ksettingsKey).listenable(),
       builder: (_, box, __) {
-        final bool isDark =
-            Hive.box(AppConstants.ksettings).get("isDark", defaultValue: false);
+        final bool isDark = Hive.box(AppConstants.ksettingsKey)
+            .get("isDark", defaultValue: false);
         final String lang =
             Hive.box("settings").get("lang", defaultValue: "en");
         return Sizer(builder: (context, orientation, deviceType) {

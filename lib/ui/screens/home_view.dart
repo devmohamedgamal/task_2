@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:task_2/utils/app_constants.dart';
-import 'package:task_2/utils/app_router.dart';
+import 'package:task_2/data/repos/mars_photos_repo.dart';
 
 import '../../generated/l10n.dart';
 import '../widgets/drawer_widget.dart';
@@ -28,6 +25,12 @@ class HomeView extends StatelessWidget {
         color: Theme.of(context).colorScheme.error,
         child: Text(S.of(context).appTitle),
       )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          MarsPhotosRepo().fetchDatePhotos(earthDate: DateTime(2021, 11, 20));
+        },
+        child: const Icon(Icons.webhook),
+      ),
     );
   }
 }

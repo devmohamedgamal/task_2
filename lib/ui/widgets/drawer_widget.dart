@@ -9,7 +9,7 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBox = Hive.box(AppConstants.ksettings);
+    final settingsBox = Hive.box(AppConstants.ksettingsKey);
     return Drawer(
       child: ListView(
         shrinkWrap: true,
