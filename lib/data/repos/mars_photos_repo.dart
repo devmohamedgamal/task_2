@@ -28,8 +28,8 @@ class MarsPhotosRepo {
 
   Future<List<MarsPhotoModel>> fetchDatePhotos(
       {required DateTime earthDate}) async {
-    bool online = await InternetConnectionChecker().hasConnection;
-    if (online == true) {
+    // bool online = await InternetConnectionChecker().hasConnection;
+    // if (online == true) {
       final formattedDate = DateFormat("yyyy-MM-dd").format(earthDate);
       log(formattedDate);
       final data = await apiService.fetchDatePhotos(earthDate: formattedDate);
@@ -39,17 +39,22 @@ class MarsPhotosRepo {
       debugPrint(photos.length.toString());
       saveMarsPhoto(photos: photos);
       return photos;
-    } else {
-      return fetchLocalDatePhoto(earthDate);
-    }
+    // } else {
+    //   return fetchLocalDatePhoto(earthDate);
+    // }
   }
 
-  Future<RoverModel> fetchRoverDetails() async {
-    final data = await apiService.fetchRoverDetails();
-    final rover = RoverModel.fromLson(data);
-    debugPrint(rover.toString());
-    Hive.box(AppConstants.kRoverKey).put(AppConstants.kRoverDetails, rover);
-    // saveMarsPhoto(photos: photos);
-    return rover;
+  Future<bool> fetchRoverDetails() async {
+    try {
+      final data = await apiService.fetchRoverDetails();
+      RoverModel rover = RoverModel.fromLson(data);
+      debugPrint(rover.maxDate.toString());
+      Hive.box<RoverModel>(AppConstants.kRoverKey)
+          .put(AppConstants.kRoverDetails, rover);
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }

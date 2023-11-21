@@ -108,11 +108,11 @@ class CamerasAdapter extends TypeAdapter<Cameras> {
 RoverModel _$RoverModelFromJson(Map<String, dynamic> json) => RoverModel(
       id: json['id'] as int,
       name: json['name'] as String,
-      landingDate: json['landing_date'] as DateTime,
-      launchDate: json['launch_date'] as DateTime,
+      landingDate: DateTime.parse(json['landing_date'] as String),
+      launchDate: DateTime.parse(json['launch_date'] as String),
       status: json['status'] as String,
       maxSol: json['max_sol'] as int,
-      maxDate: json['max_date'] as DateTime,
+      maxDate: DateTime.parse(json['max_date'] as String),
       totalPhotos: json['total_photos'] as int,
       cameras: (json['cameras'] as List<dynamic>)
           .map((e) => Cameras.fromLson(e as Map<String, dynamic>))

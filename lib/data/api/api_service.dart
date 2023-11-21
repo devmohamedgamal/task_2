@@ -72,7 +72,6 @@ class ApiService {
   Future<Map<String, dynamic>> fetchRoverDetails() async {
   try {
     final Response response = await dio.request("/curiosity");
-    log(response.data['rover'].toString());
     return response.data['rover'];
   } catch (e) {
     if (e is DioException) {

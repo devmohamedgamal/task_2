@@ -11,10 +11,10 @@ class RoverModel {
   @HiveField(1)
   final String name;
   @HiveField(2)
-  @JsonKey(name: 'landing_date',fromJson: _dateFromString)
+  @JsonKey(name: 'landing_date',fromJson: DateTime.parse)
   final DateTime landingDate;
   @HiveField(3)
-  @JsonKey(name: 'launch_date',fromJson: _dateFromString)
+  @JsonKey(name: 'launch_date',fromJson: DateTime.parse)
   final DateTime launchDate;
   @HiveField(4)
   final String status;
@@ -22,7 +22,7 @@ class RoverModel {
   @JsonKey(name: 'max_sol')
   final int maxSol;
   @HiveField(6)
-  @JsonKey(name: 'max_date',fromJson: _dateFromString)
+  @JsonKey(name: 'max_date',fromJson: DateTime.parse)
   final DateTime maxDate;
   @HiveField(7)
   @JsonKey(name: 'total_photos')
@@ -41,8 +41,6 @@ class RoverModel {
     required this.totalPhotos,
     required this.cameras,
   });
-
-  static DateTime _dateFromString(String date) => DateTime.parse(date);
   factory RoverModel.fromLson(Map<String, dynamic> json) =>
       _$RoverModelFromJson(json);
 }
