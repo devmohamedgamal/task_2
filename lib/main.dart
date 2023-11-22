@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
@@ -12,6 +13,10 @@ import 'utils/typography.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDb();
+  await FlutterDownloader.initialize(
+    debug: true, // optional: set to false to disable printing logs to console (default: true)
+    ignoreSsl: true // option: set to false to disable working with http links (default: false)
+  );
   runApp(const MyApp());
 }
 

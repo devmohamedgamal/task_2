@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc: ^8.1.2
+  bloc_provider: ^1.0.0
   build_runner: ^2.4.6
   cached_network_image: ^3.3.0
   cupertino_icons: ^1.0.2
@@ -38,6 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
+  flutter_downloader: ^1.11.4
   flutter_localization: ^0.1.14
   flutter_localizations:
     sdk: flutter
@@ -49,6 +51,8 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.1
   json_serializable: ^6.7.1
+  path_provider: ^2.1.1
+  permission_handler: ^11.0.1
   sizer: ^2.0.15
 
 dev_dependencies:

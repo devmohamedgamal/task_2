@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:task_2/data/models/mars_photo_model/mars_photo_model.dart';
 import 'package:task_2/data/models/mars_photo_model/rover_model.dart';
 import 'package:task_2/data/repos/mars_photos_repo.dart';
@@ -68,6 +71,14 @@ class _HomeViewState extends State<HomeView> {
                       return MarsPhotoCard(marsPhoto: marsPhotos[i]);
                     },
                   ),
+                ),
+                // ElevatedButton(
+                //     onPressed: () async {
+                      
+                //     },
+                //     child: const Text("Download")),
+                const SizedBox(
+                  height: 40,
                 ),
               ],
             ),
