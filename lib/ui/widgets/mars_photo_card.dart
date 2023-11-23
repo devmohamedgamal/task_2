@@ -27,7 +27,7 @@ class MarsPhotoCard extends StatelessWidget {
             final state = await Permission.storage.request();
             final externalDir = await getExternalStorageDirectory();
             if (state.isGranted) {
-            FlutterDownloader.enqueue(
+              FlutterDownloader.enqueue(
                 url: marsPhoto.imgSrc,
                 savedDir: externalDir!.path,
                 fileName: "Download",
