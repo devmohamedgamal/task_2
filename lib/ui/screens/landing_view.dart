@@ -43,8 +43,7 @@ class LandingView extends StatelessWidget {
                   lastDate: rover.maxDate,
                 ).then((date) {
                   if (date != null) {
-                    cubit.clearPhotoList();
-                    cubit.fetchDateMarsPhotos(date: date);
+                   
                     context.push(AppConstants.homeView, extra: date);
                   }
                 });

@@ -31,35 +31,38 @@ class MarsPhotosCubit extends Cubit<MarsPhotosState> {
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
       if (earthDate != null) {
-        fetchDateMarsPhotos(date: earthDate, page: pageCount++);
+        fetchMarsPhotos(date: earthDate, page: pageCount++);
         log(pageCount.toString());
       }
       log("End Of The List");
     }
   }
 
-  Future<void> fetchLatestMarsPhotos() async {
-    emit(MarsPhotosLoading());
-    var result = await marsPhotosRepo.feetchLatestMarsPhotos();
-    result.fold((failure) {
-      emit(MarsPhotosFailure(errMessage: failure.errorMessage));
-    }, (success) {
-      photos.addAll(success);
-      emit(MarsPhotosSuccess(photos: photos));
-    });
-  }
+  Future<void> fetchLatestMarsPhotos() async {}
 
-  Future<void> fetchDateMarsPhotos({required DateTime date, int? page}) async {
-    emit(MarsPhotosLoading());
-
-    var result = await marsPhotosRepo.fetchDateMarsPhotos(
-        date: date, page: page ?? pageCount);
-    result.fold((failure) {
-      emit(MarsPhotosFailure(errMessage: failure.errorMessage));
-    }, (success) {
-      photos.addAll(success);
-      isPhotosLoaded = true;
-      emit(MarsPhotosSuccess(photos: photos));
-    });
+  Future<void> fetchMarsPhotos({required DateTime? date, int? page}) async {
+    if (date != null) {
+      emit(MarsPhotosLoading());
+      var result = await marsPhotosRepo.fetchDateMarsPhotos(
+          date: date, page: page ?? pageCount);
+      result.fold((failure) {
+        emit(MarsPhotosFailure(errMessage: failure.errorMessage));
+      }, (success) {
+        photos.addAll(success);
+        isPhotosLoaded = true;
+        emit(MarsPhotosSuccess(photos: photos));
+      });
+    } else {
+      emit(MarsPhotosLoading());
+      var result = await marsPhotosRepo.feetchLatestMarsPhotos();
+      result.fold((failure) {
+        emit(MarsPhotosFailure(errMessage: failure.errorMessage));
+      }, (success) {
+        photos.addAll(success);
+        log("add photos to latest ");
+        isPhotosLoaded = true;
+        emit(MarsPhotosSuccess(photos: photos));
+      });
+    }
   }
 }

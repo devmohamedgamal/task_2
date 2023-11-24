@@ -12,6 +12,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final MarsPhotosCubit cubit = context.read<MarsPhotosCubit>();
     cubit.clearPhotoList();
+    cubit.fetchMarsPhotos(date: date);
     cubit.scrollController.addListener(
       () => cubit.checkScrollPosition(date),
     );
@@ -57,7 +58,9 @@ class HomeView extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               } else {
-                return const SizedBox();
+                return const SizedBox(
+                  child: Text('Empty'),
+                );
               }
             },
           ),
