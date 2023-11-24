@@ -9,8 +9,9 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../data/models/mars_photo_model/mars_photo_model.dart';
 
 class MarsPhotoCard extends StatelessWidget {
-  const MarsPhotoCard({super.key, required this.marsPhoto});
+  const MarsPhotoCard({super.key, required this.marsPhoto, required this.i});
   final MarsPhotoModel marsPhoto;
+  final int i;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class MarsPhotoCard extends StatelessWidget {
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         Text("Solar day: ${marsPhoto.sol}"),
+        Text("number $i"),
         ElevatedButton(
           onPressed: () async {
             final state = await Permission.storage.request();

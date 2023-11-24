@@ -22,3 +22,5 @@ final class MarsPhotosSuccess extends MarsPhotosState {
 
   const MarsPhotosSuccess({required this.photos});
 }
+
+final class MarsPhotosMorePhots extends MarsPhotosState {}

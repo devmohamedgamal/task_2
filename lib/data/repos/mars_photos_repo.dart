@@ -6,6 +6,6 @@ import 'package:task_2/utils/errors/failure.dart';
 abstract class MarsPhotosRepo {
   Future<Either<Failure, RoverModel>> fetchRoverDetails();
   Future<Either<Failure, List<MarsPhotoModel>>> fetchDateMarsPhotos(
-      {required DateTime date});
+      {required DateTime date,int? page});
   Future<Either<Failure, List<MarsPhotoModel>>> feetchLatestMarsPhotos();
 }

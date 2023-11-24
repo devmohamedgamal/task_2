@@ -9,14 +9,26 @@ import '../../generated/l10n.dart';
 import '../../logic/mars_photos/mars_photo_cubit/mars_photos_cubit.dart';
 import '../widgets/drawer_widget.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final RoverModel rover = Hive.box<RoverModel>(AppConstants.kRoverKey)
         .get(AppConstants.kRoverDetails)!;
-    late DateTime? date;
+    final MarsPhotosCubit cubit = context.read<MarsPhotosCubit>();
+    DateTime? date;
+    cubit.scrollController.addListener(() {
+      if (date != null) {
+        cubit.checkScrollPosition(date!);
+        setState(() {});
+      }
+    });
     return BlocBuilder<RoverDetailsCubit, RoverDetailsState>(
       builder: (context, state) {
         if (state is RoverDetailsSuccess) {
@@ -40,22 +52,36 @@ class HomeView extends StatelessWidget {
                       firstDate: rover.landingDate,
                       lastDate: rover.maxDate,
                     );
-                    // ignore: use_build_context_synchronously
-                    BlocProvider.of<MarsPhotosCubit>(context)
-                        .fetchDateMarsPhotos(date: date!);
+                    if (date != null) {
+                      cubit.clearPhotoList();
+                      cubit.fetchDateMarsPhotos(date: date!);
+                    }
                   },
                 ),
                 BlocBuilder<MarsPhotosCubit, MarsPhotosState>(
                   builder: (context, state) {
                     if (state is MarsPhotosSuccess) {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: state.photos.length,
-                          itemBuilder: (_, i) {
-                            return MarsPhotoCard(marsPhoto: state.photos[i]);
-                          },
-                        ),
-                      );
+                      return state.photos.isEmpty
+                          ? const Center(
+                              child: Column(
+                              children: [
+                                Icon(
+                                  Icons.search_off_outlined,
+                                  size: 100,
+                                ),
+                                Text('No Photos For This date'),
+                              ],
+                            ))
+                          : Expanded(
+                              child: ListView.builder(
+                                controller: cubit.scrollController,
+                                itemCount: cubit.photos.length,
+                                itemBuilder: (_, i) {
+                                  return MarsPhotoCard(
+                                      i: i, marsPhoto: cubit.photos[i]);
+                                },
+                              ),
+                            );
                     } else if (state is MarsPhotosFailure) {
                       return Center(
                         child: Text(state.errMessage),

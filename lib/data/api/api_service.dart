@@ -54,10 +54,11 @@ class ApiService {
     }
   }
 
-  Future<List<dynamic>> fetchDatePhotos({required String earthDate}) async {
+  Future<List<dynamic>> fetchDatePhotos(
+      {required String earthDate,required int page}) async {
     try {
       final Response response = await dio.request("/curiosity/photos",
-          queryParameters: {"earth_date": earthDate});
+          queryParameters: {"earth_date": earthDate, "page": page});
       return response.data['photos'];
     } catch (e) {
       if (e is DioException) {
@@ -70,17 +71,16 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> fetchRoverDetails() async {
-  try {
-    final Response response = await dio.request("/curiosity");
-    return response.data['rover'];
-  } catch (e) {
-    if (e is DioException) {
-      log(e.message.toString());
-    } else {
-      log('normal error $e');
+    try {
+      final Response response = await dio.request("/curiosity");
+      return response.data['rover'];
+    } catch (e) {
+      if (e is DioException) {
+        log(e.message.toString());
+      } else {
+        log('normal error $e');
+      }
+      return {};
     }
-    return {};
   }
-}
-
 }
