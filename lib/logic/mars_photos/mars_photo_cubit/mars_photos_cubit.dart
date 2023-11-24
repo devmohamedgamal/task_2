@@ -19,10 +19,12 @@ class MarsPhotosCubit extends Cubit<MarsPhotosState> {
 
   List<MarsPhotoModel> photos = [];
   int pageCount = 1;
+  bool isPhotosLoaded = false;
 
   void clearPhotoList() {
     photos.clear();
     pageCount = 1;
+    isPhotosLoaded = false;
   }
 
   void checkScrollPosition(DateTime? earthDate) {
@@ -31,8 +33,6 @@ class MarsPhotosCubit extends Cubit<MarsPhotosState> {
       if (earthDate != null) {
         fetchDateMarsPhotos(date: earthDate, page: pageCount++);
         log(pageCount.toString());
-      } else {
-        fetchLatestMarsPhotos();
       }
       log("End Of The List");
     }
@@ -44,25 +44,22 @@ class MarsPhotosCubit extends Cubit<MarsPhotosState> {
     result.fold((failure) {
       emit(MarsPhotosFailure(errMessage: failure.errorMessage));
     }, (success) {
-      emit(MarsPhotosSuccess(photos: success));
+      photos.addAll(success);
+      emit(MarsPhotosSuccess(photos: photos));
     });
   }
 
   Future<void> fetchDateMarsPhotos({required DateTime date, int? page}) async {
-    if (pageCount == 1) {
-      emit(MarsPhotosLoading());
-    }
+    emit(MarsPhotosLoading());
+
     var result = await marsPhotosRepo.fetchDateMarsPhotos(
         date: date, page: page ?? pageCount);
     result.fold((failure) {
-      if (pageCount == 1) {
-        emit(MarsPhotosFailure(errMessage: failure.errorMessage));
-      }
+      emit(MarsPhotosFailure(errMessage: failure.errorMessage));
     }, (success) {
       photos.addAll(success);
-      if (pageCount == 1) {
-        emit(MarsPhotosSuccess(photos: photos));
-      }
+      isPhotosLoaded = true;
+      emit(MarsPhotosSuccess(photos: photos));
     });
   }
 }
